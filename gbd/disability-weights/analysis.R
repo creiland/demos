@@ -13,10 +13,14 @@ global.data <- read.csv('./data/prepped/global_burden.csv', stringsAsFactors = F
 global.data[is.na(global.data)] <- 0
 
 # What disease was responsible for the most burden (by each metric)?
+deaths_max <- filter(global.data, deaths == max(deaths)) %>% select(cause)
+YLLs_max <- filter(global.data, ylls == max(ylls)) %>% select(cause)
+YLDs_max <- filter(global.data, ylds == max(ylds)) %>% select(cause)
+DALYs <- filter(global.data, dalys == max(dalys)) %>% select(cause)
 
 
 # Using prevalence and YLDs, calculate inferred disability weights (not actual weights in the study)
-
+global.data <- mutate(global.data, disability.weight = ylds/prevalence)
 
 # See anything strange about the estimated disability weights?
 
